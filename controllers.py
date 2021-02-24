@@ -13,4 +13,7 @@ class LoginUserControllers(MethodView):
         #simulacion de espera en el back con 1.5 segundos
         time.sleep(3)
         return jsonify({"login ok": True}), 200
-
+class RegisterUserControllers(MethodView):
+    def post(self):
+        time.sleep(3)
+        return jsonify({"Register ok": True}),200
