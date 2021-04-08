@@ -14,8 +14,8 @@ from model import users
 app = Flask(__name__)
 app.config["MYSQL_HOST"]="localhost"
 app.config["MYSQL_USER"]="root"
-app.config["MYSQL_PASSWORD"]="1234"
-app.config["MYSQL_DB"]="restaurante"
+app.config["MYSQL_PASSWORD"]=""
+app.config["MYSQL_DB"]="restauranteangular"
 mysql=MySQL(app)
 app.secret_key='mysecretKey'
 class LoginUserControllers(MethodView):
@@ -52,7 +52,7 @@ class LoginUserControllers(MethodView):
             contrasenaUser= users[correo]["contraseña"]
             #print("CONTRASEÑA USUARIO ",contrasenaUser)
             if bcrypt.checkpw(bytes(str(password), encoding='utf-8'),contrasenaUser.encode('utf-8')):
-                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=20), 'email': email,'admin': admin}, KEY_TOKEN_AUTH , algorithm='HS256')
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10), 'email': email,'admin': admin}, KEY_TOKEN_AUTH , algorithm='HS256')
                 #return print("EXITOSO")
                 return jsonify({"Status": "Login exitoso","token": encoded_jwt,"name":datos[1]}), 200
             else:
@@ -108,3 +108,26 @@ class PedidosUserControllers(MethodView):
             except:
                 return jsonify({"Status": "TOKEN NO VALIDO"}), 403
         return jsonify({"Status": "No ha enviado un token"}), 403
+class ReservarUserControllers(MethodView):
+    def post(self):
+        try:
+            content = request.get_json() 
+            
+            cel=content.get("cel")
+            fecha=content.get("fecha")
+            personas=content.get("personas")
+            idusuario=content.get("idusuario")
+            #genera un objeto cursor
+            cur= mysql.connection.cursor()
+            
+            #ejecutar comandos de MySQL
+            cur.execute("INSERT INTO  reservacion(cel,fecha,personas,idusuario) VALUES(%s,%s,%s,%s)",(cel,fecha,personas,idusuario))
+            #actualiza la informacion que acaba de ingresar 
+            mysql.connection.commit()
+            #cerrar la conecion
+            cur.close()
+            #el método render_template el cual indicará como parámetro el nombre del template a cargar.
+       # return render_template('registrso.html')
+            return jsonify({"data":true}),200
+        except:
+            return "Lo sentimos el registro ya se ha hecho antes "

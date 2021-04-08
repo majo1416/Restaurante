@@ -7,3 +7,5 @@ app.add_url_rule(user["login_user"], view_func=user["login_user_controllers"])
 app.add_url_rule(user["Register_user"], view_func=user["login_register_controllers"])
 app.add_url_rule(user["Productos_clients"],view_func=user["productos"])
 app.add_url_rule(user["Productos_clients_pedidos"],view_func=user["productosPedidos"])
+app.add_url_rule(user["Reservar_user"],view_func=user["reservar_user_controllers"])
+#aqui

@@ -1,4 +1,4 @@
-from controllers import LoginUserControllers,RegisterUserControllers,Productos,app,PedidosUserControllers
+from controllers import LoginUserControllers,RegisterUserControllers,Productos,app,PedidosUserControllers,ReservarUserControllers
 
 
 user = {
@@ -6,5 +6,6 @@ user = {
     "Register_user": "/api/v01/user/register", "login_register_controllers": RegisterUserControllers.as_view("register_api"),
     "Productos_clients":"/api/v01/user/product","productos":Productos.as_view("productos_api"),
     "Productos_clients_pedidos":"/api/v01/user/getInfo","productosPedidos":PedidosUserControllers.as_view("pedidos"),
+    "Reservar_user":"/api/v01/user/reservar","reservar_user_controllers":ReservarUserControllers.as_view("reservar_api")
 }
-
+#aqui
